@@ -20,12 +20,13 @@ export default function SearchBar() {
   }
 
   return (
-    <form onSubmit={handleSearch} className="w-full max-w-2xl mx-auto group">
+    <form onSubmit={handleSearch} id="search-bar" className="w-full group">
       <div className="relative">
         <Search
-          size={20}
-          className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500
-                     group-focus-within:text-neutral-300 transition-colors duration-300"
+          size={18}
+          className="absolute left-3.5 top-1/2 -translate-y-1/2
+                     text-[var(--t-text-muted)] group-focus-within:text-[var(--t-text-secondary)]
+                     transition-colors duration-300"
         />
         <input
           ref={inputRef}
@@ -35,14 +36,15 @@ export default function SearchBar() {
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Pesquisar no Google..."
-          className="w-full py-3.5 pl-12 pr-4 rounded-2xl
-                     bg-[#0e0e0e] border border-[#1a1a1a]
-                     text-neutral-200 placeholder:text-neutral-600
+          aria-label="Pesquisar no Google"
+          className="w-full py-2.5 pl-10 pr-4 rounded-xl
+                     bg-[var(--t-input)] border border-[var(--t-input-border)]
+                     text-[var(--t-text)] placeholder:text-[var(--t-text-muted)]
                      outline-none
-                     focus:border-[#2a2a2a] focus:ring-1 focus:ring-[#2a2a2a]
-                     hover:border-[#222]
+                     focus:border-[var(--t-border-hover)] focus:ring-1 focus:ring-[var(--t-border-hover)]
+                     hover:border-[var(--t-border-hover)]
                      transition-all duration-300
-                     text-[15px] tracking-wide"
+                     text-sm tracking-wide"
         />
       </div>
     </form>

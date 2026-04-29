@@ -101,9 +101,7 @@ export default function GmailWidget() {
           >
             <AlertCircle size={18} style={{ color: 'var(--t-danger)' }} />
             <p className="text-xs" style={{ color: 'var(--t-danger)', lineHeight: 1.4 }}>
-              {error.includes('auth') || error.includes('token')
-                ? 'Autorize o acesso ao Gmail clicando em Atualizar ↗'
-                : error}
+              {error}
             </p>
             <button
               onClick={refresh}

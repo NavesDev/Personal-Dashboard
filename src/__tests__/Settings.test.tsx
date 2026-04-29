@@ -25,8 +25,9 @@ describe('Settings types', () => {
       finance: 'finance-key',
       calendar: 'calendar-key',
       gemini: 'gemini-key',
+      geminiModel: 'gemini-1.5-flash',
     }
     expect(keys.gmail).toBe('AIza-test')
-    expect(Object.keys(keys)).toHaveLength(5)
+    expect(Object.keys(keys)).toHaveLength(6)
   })
 })

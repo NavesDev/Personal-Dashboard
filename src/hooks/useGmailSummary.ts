@@ -94,7 +94,7 @@ export function useGmailSummary(): UseGmailSummaryResult {
         const fetchedEmails = await fetchRecentEmails(10)
         if (cancelled) return
 
-        const generatedSummary = await summarizeEmails(fetchedEmails, apiKeys.gemini)
+        const generatedSummary = await summarizeEmails(fetchedEmails, apiKeys.gemini, apiKeys.geminiModel)
         if (cancelled) return
 
         const now = Date.now()

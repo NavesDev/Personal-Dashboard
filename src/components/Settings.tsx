@@ -16,10 +16,24 @@ export default function Settings({ open, onClose }: SettingsProps) {
   const [localKeys, setLocalKeys] = useState<ApiKeys>(defaultApiKeys)
   const [tab, setTab] = useState<'theme' | 'api'>('theme')
   const [saved, setSaved] = useState(false)
+  const [models, setModels] = useState<string[]>([])
 
   useEffect(() => {
     setLocalKeys(apiKeys)
   }, [apiKeys])
+
+  useEffect(() => {
+    if (tab === 'api' && localKeys.gemini) {
+      fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${localKeys.gemini}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.models) {
+            setModels(data.models.map((m: { name: string }) => m.name.replace('models/', '')))
+          }
+        })
+        .catch(() => { })
+    }
+  }, [tab, localKeys.gemini])
 
   const handleSaveKeys = () => {
     setApiKeys(localKeys)
@@ -60,22 +74,20 @@ export default function Settings({ open, onClose }: SettingsProps) {
           <button
             onClick={() => setTab('theme')}
             className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium
-                        transition-colors border-b-2 ${
-                          tab === 'theme'
-                            ? 'border-[var(--t-accent)] text-[var(--t-accent)]'
-                            : 'border-transparent text-[var(--t-text-muted)] hover:text-[var(--t-text)]'
-                        }`}
+                        transition-colors border-b-2 ${tab === 'theme'
+                ? 'border-[var(--t-accent)] text-[var(--t-accent)]'
+                : 'border-transparent text-[var(--t-text-muted)] hover:text-[var(--t-text)]'
+              }`}
           >
             <Palette size={15} /> Temas
           </button>
           <button
             onClick={() => setTab('api')}
             className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium
-                        transition-colors border-b-2 ${
-                          tab === 'api'
-                            ? 'border-[var(--t-accent)] text-[var(--t-accent)]'
-                            : 'border-transparent text-[var(--t-text-muted)] hover:text-[var(--t-text)]'
-                        }`}
+                        transition-colors border-b-2 ${tab === 'api'
+                ? 'border-[var(--t-accent)] text-[var(--t-accent)]'
+                : 'border-transparent text-[var(--t-text-muted)] hover:text-[var(--t-text)]'
+              }`}
           >
             <Key size={15} /> Chaves de API
           </button>
@@ -91,11 +103,10 @@ export default function Settings({ open, onClose }: SettingsProps) {
                   onClick={() => setThemeId(t.id)}
                   data-testid={`theme-${t.id}`}
                   className={`relative p-3 rounded-xl border-2 transition-all duration-200
-                              text-left hover:scale-[1.02] ${
-                                theme.id === t.id
-                                  ? 'border-[var(--t-accent)] ring-1 ring-[var(--t-accent)]'
-                                  : 'border-[var(--t-border)] hover:border-[var(--t-border-hover)]'
-                              }`}
+                              text-left hover:scale-[1.02] ${theme.id === t.id
+                      ? 'border-[var(--t-accent)] ring-1 ring-[var(--t-accent)]'
+                      : 'border-[var(--t-border)] hover:border-[var(--t-border-hover)]'
+                    }`}
                 >
                   {/* Theme preview */}
                   <div
@@ -158,6 +169,34 @@ export default function Settings({ open, onClose }: SettingsProps) {
                   />
                 </div>
               ))}
+              <div>
+                <label className="block text-xs font-medium text-[var(--t-text-secondary)] mb-1.5 flex justify-between">
+                  <span>Modelo Gemini</span>
+                  {models.length === 0 && localKeys.gemini && (
+                    <span className="text-[10px] text-[var(--t-text-muted)]">Carregando...</span>
+                  )}
+                </label>
+                <select
+                  value={localKeys.geminiModel || 'gemini-1.5-flash'}
+                  onChange={(e) =>
+                    setLocalKeys((prev) => ({ ...prev, geminiModel: e.target.value }))
+                  }
+                  className="w-full px-3 py-2 rounded-lg text-sm
+                             bg-[var(--t-input)] border border-[var(--t-input-border)]
+                             text-[var(--t-text)] outline-none focus:border-[var(--t-border-hover)]
+                             transition-colors"
+                >
+                  {models.length > 0 ? (
+                    models.map((m) => (
+                      <option key={m} value={m}>{m}</option>
+                    ))
+                  ) : (
+                    <option value={localKeys.geminiModel || 'gemini-1.5-flash'}>
+                      {localKeys.geminiModel || 'gemini-1.5-flash'}
+                    </option>
+                  )}
+                </select>
+              </div>
               <button
                 onClick={handleSaveKeys}
                 className="w-full py-2.5 rounded-lg text-sm font-medium

@@ -4,6 +4,7 @@ export interface ApiKeys {
   finance: string
   calendar: string
   gemini: string
+  geminiModel: string
 }
 
 export const defaultApiKeys: ApiKeys = {
@@ -12,4 +13,5 @@ export const defaultApiKeys: ApiKeys = {
   finance: '',
   calendar: '',
   gemini: '',
+  geminiModel: 'gemini-1.5-flash',
 }

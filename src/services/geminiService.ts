@@ -5,12 +5,12 @@
 
 import type { GmailMessage } from './gmailService'
 
-const GEMINI_API_URL =
-  'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
+const GEMINI_API_BASE = 'https://generativelanguage.googleapis.com/v1beta/models'
 
 export async function summarizeEmails(
   emails: GmailMessage[],
   apiKey: string,
+  model = 'gemini-1.5-flash',
 ): Promise<string> {
   if (emails.length === 0) return 'Nenhum email encontrado.'
 
@@ -30,7 +30,7 @@ Seja direto e objetivo. Máximo 4-5 linhas.
 Emails:
 ${emailList}`
 
-  const res = await fetch(`${GEMINI_API_URL}?key=${apiKey}`, {
+  const res = await fetch(`${GEMINI_API_BASE}/${model}:generateContent?key=${apiKey}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -43,6 +43,9 @@ ${emailList}`
   })
 
   if (!res.ok) {
+    if (res.status === 429) {
+      throw new Error(`A cota do modelo ${model} excedeu. Tente alterar o modelo nas configurações.`)
+    }
     const err = await res.json().catch(() => ({}))
     throw new Error(`Gemini API error ${res.status}: ${err?.error?.message ?? res.statusText}`)
   }

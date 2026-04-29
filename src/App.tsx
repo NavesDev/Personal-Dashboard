@@ -83,39 +83,38 @@ export default function App() {
       </header>
 
       {/* ── Grid ───────────────────────────────────────────────────── */}
-      {/*
-          Layout (6 cells):
-          col1 (1fr) | col2 (1.3fr) | col3 (0.9fr)
-
-          Row 1: Gmail | Notícias (tall, 2 rows) | Agenda
-          Row 2: Investimentos  | Notícias (cont) | Favoritos + Notas (stacked)
-      */}
       <main
         className="flex-1 min-h-0 p-3 gap-3"
         style={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1.35fr 0.85fr',
+          gridTemplateColumns: '1.2fr 1.15fr 0.85fr',
           gridTemplateRows: '1fr 1fr',
         }}
       >
-        {/* Gmail — row 1, col 1 */}
-        <GmailWidget />
+        {/* Gmail — spans 2 rows, col 1 */}
+        <div style={{ gridRow: '1 / 3', gridColumn: '1 / 2', minHeight: 0 }}>
+          <GmailWidget />
+        </div>
 
-        {/* Notícias — spans 2 rows, col 2 */}
-        <div style={{ gridRow: '1 / 3', gridColumn: '2 / 3', minHeight: 0 }}>
+        {/* Notícias — row 1, col 2 */}
+        <div style={{ gridRow: '1 / 2', gridColumn: '2 / 3', minHeight: 0 }}>
           <NewsWidget />
         </div>
 
-        {/* Agenda — row 1, col 3 */}
-        <AgendaWidget />
+        {/* Investimentos — row 2, col 2 */}
+        <div style={{ gridRow: '2 / 3', gridColumn: '2 / 3', minHeight: 0 }}>
+          <InvestWidget />
+        </div>
 
-        {/* Investimentos — row 2, col 1 */}
-        <InvestWidget />
+        {/* Agenda — row 1, col 3 */}
+        <div style={{ gridRow: '1 / 2', gridColumn: '3 / 4', minHeight: 0 }}>
+          <AgendaWidget />
+        </div>
 
         {/* Favoritos + Notas stacked — row 2, col 3 */}
         <div
           className="gap-3 min-h-0"
-          style={{ display: 'grid', gridTemplateRows: 'auto 1fr' }}
+          style={{ display: 'grid', gridTemplateRows: 'auto 1fr', gridRow: '2 / 3', gridColumn: '3 / 4' }}
         >
           <SpeedDial />
           <Notes />

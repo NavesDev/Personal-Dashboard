@@ -74,10 +74,7 @@ export default function GmailWidget() {
 
         {/* AI Summary */}
         {summary && (
-          <div
-            className="rounded-lg p-3"
-            style={{ background: 'var(--t-accent-dim)' }}
-          >
+          <div className="rounded-lg pt-1">
             <div className="flex items-center gap-1 mb-2">
               <span
                 className="text-[10px] font-bold uppercase tracking-widest"
@@ -87,19 +84,27 @@ export default function GmailWidget() {
               </span>
             </div>
             <div
-              className="text-sm leading-relaxed whitespace-pre-wrap markdown-content"
-              style={{ color: 'var(--t-text)', lineHeight: 1.6 }}
+              className="text-sm leading-relaxed whitespace-pre-wrap markdown-content pr-2"
+              style={{ color: 'var(--t-text)', lineHeight: 1.5 }}
             >
               <ReactMarkdown
                 components={{
-                  p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                  ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
-                  ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-1">{children}</ol>,
-                  li: ({ children }) => <li>{children}</li>,
-                  strong: ({ children }) => <strong style={{ color: 'var(--t-accent)' }} className="font-semibold">{children}</strong>,
-                  h1: ({ children }) => <h1 className="font-bold text-base mb-1">{children}</h1>,
-                  h2: ({ children }) => <h2 className="font-bold text-sm mb-1">{children}</h2>,
-                  h3: ({ children }) => <h3 className="font-semibold text-sm mb-1">{children}</h3>,
+                  p: ({ children }) => <p className="mb-1 text-[13px] text-[var(--t-text-secondary)]">{children}</p>,
+                  ul: ({ children }) => <ul className="mb-2 flex flex-col gap-1.5">{children}</ul>,
+                  li: ({ children }) => (
+                    <li className="flex items-start gap-2.5 text-[13px] text-[var(--t-text-secondary)]">
+                      <span className="mt-[6px] w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: 'var(--t-accent)', boxShadow: '0 0 4px var(--t-accent)' }} />
+                      <span className="flex-1 leading-snug">{children}</span>
+                    </li>
+                  ),
+                  strong: ({ children }) => <strong style={{ color: 'var(--t-text)' }} className="font-semibold">{children}</strong>,
+                  h1: ({ children }) => <h1 className="font-bold text-base mb-1 mt-2 text-[var(--t-text)]">{children}</h1>,
+                  h2: ({ children }) => <h2 className="font-bold text-[14px] mb-1 mt-2 text-[var(--t-text)]">{children}</h2>,
+                  h3: ({ children }) => (
+                    <h3 className="font-semibold text-[13px] mt-3 mb-1.5 pb-1 border-b border-[var(--t-border)] text-[var(--t-text)] tracking-wide">
+                      {children}
+                    </h3>
+                  ),
                 }}
               >
                 {summary}

@@ -99,21 +99,22 @@ export default function Settings({ open, onClose }: SettingsProps) {
                 >
                   {/* Theme preview */}
                   <div
-                    className="w-full h-12 rounded-lg mb-2 border border-black/10 flex items-end p-1.5 gap-1"
+                    className="w-full h-12 rounded-lg mb-2 overflow-hidden relative"
                     style={{ backgroundColor: t.colors['--t-bg'] }}
                   >
+                    {/* gradient bar at top */}
                     <div
-                      className="w-4 h-3 rounded-sm"
-                      style={{ backgroundColor: t.colors['--t-card'] }}
+                      className="absolute inset-x-0 top-0 h-1"
+                      style={{ background: t.colors['--t-gradient'] }}
                     />
-                    <div
-                      className="w-4 h-4 rounded-sm"
-                      style={{ backgroundColor: t.colors['--t-accent'] }}
-                    />
-                    <div
-                      className="w-4 h-2.5 rounded-sm"
-                      style={{ backgroundColor: t.colors['--t-border'] }}
-                    />
+                    {/* mini card simulation */}
+                    <div className="absolute inset-x-2 top-3 bottom-1 rounded flex items-center gap-1 px-2"
+                      style={{ backgroundColor: t.colors['--t-card'], border: `1px solid ${t.colors['--t-border']}` }}
+                    >
+                      <div className="w-2 h-2 rounded-full" style={{ background: t.colors['--t-accent'] }} />
+                      <div className="h-1 flex-1 rounded" style={{ background: t.colors['--t-border'] }} />
+                      <div className="h-1 w-4 rounded" style={{ background: t.colors['--t-accent2'] }} />
+                    </div>
                   </div>
                   <p className="text-xs font-medium text-[var(--t-text)]">
                     {t.emoji} {t.name}

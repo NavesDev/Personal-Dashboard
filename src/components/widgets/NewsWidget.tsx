@@ -5,34 +5,47 @@ const mockNews = [
   { id: 2, title: 'Banco Central mantém Selic em 10,5% ao ano', source: 'G1', time: '4h' },
   { id: 3, title: 'Novo framework React Server Components ganha tração', source: 'Dev.to', time: '5h' },
   { id: 4, title: 'Brasil avança em energia renovável com recorde solar', source: 'Reuters', time: '6h' },
+  { id: 5, title: 'Apple anuncia novo chip M4 Ultra para Mac Pro', source: 'MacRumors', time: '8h' },
+  { id: 6, title: 'Startup brasileira levanta $50M em rodada série B', source: 'Valor', time: '10h' },
 ]
 
 export default function NewsWidget() {
   return (
-    <div className="card h-full flex flex-col" id="news-widget">
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <Newspaper size={16} className="text-sky-400" />
-          <h2 className="widget-title">Notícias</h2>
-        </div>
+    <div className="card h-full" id="news-widget">
+      <div className="widget-header">
+        <div className="accent-bar" />
+        <Newspaper size={12} style={{ color: 'var(--t-accent)' }} />
+        <span className="widget-title">Notícias</span>
       </div>
-      <ul className="flex-1 space-y-1.5 overflow-auto min-h-0">
+
+      <div className="flex-1 min-h-0 overflow-auto space-y-0.5">
         {mockNews.map((n) => (
-          <li
-            key={n.id}
-            className="px-2 py-1.5 rounded-lg hover:bg-[var(--t-card-hover)] transition-colors cursor-pointer group"
-          >
-            <p className="text-xs text-[var(--t-text)] group-hover:text-[var(--t-accent)] transition-colors line-clamp-2 leading-relaxed">
-              {n.title}
-            </p>
-            <div className="flex items-center gap-2 mt-0.5">
-              <span className="text-[10px] text-[var(--t-text-muted)]">{n.source}</span>
-              <span className="text-[10px] text-[var(--t-text-muted)]">· {n.time}</span>
+          <div key={n.id} className="widget-row" style={{ alignItems: 'flex-start', cursor: 'pointer' }}>
+            {/* Gradient accent dot */}
+            <div
+              className="w-1.5 h-1.5 rounded-full flex-shrink-0 mt-1 mr-2.5"
+              style={{ background: 'var(--t-gradient)' }}
+            />
+            <div className="min-w-0 flex-1">
+              <p
+                className="text-[11px] line-clamp-2 leading-relaxed"
+                style={{ color: 'var(--t-text)', lineHeight: '1.45' }}
+              >
+                {n.title}
+              </p>
+              <div className="flex items-center gap-1.5 mt-0.5">
+                <span className="text-[9px]" style={{ color: 'var(--t-accent)', fontWeight: 500 }}>
+                  {n.source}
+                </span>
+                <span className="text-[9px]" style={{ color: 'var(--t-text-muted)' }}>
+                  {n.time}
+                </span>
+              </div>
             </div>
-          </li>
+          </div>
         ))}
-      </ul>
-      <button className="ver-mais">Ver mais →</button>
+      </div>
+      <button className="ver-mais">ver mais →</button>
     </div>
   )
 }

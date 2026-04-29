@@ -9,44 +9,42 @@ const mockEmails = [
 
 export default function GmailWidget() {
   return (
-    <div className="card h-full flex flex-col" id="gmail-widget">
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <Mail size={16} className="text-red-400" />
-          <h2 className="widget-title">Gmail</h2>
-        </div>
-        <span className="badge">2 novos</span>
+    <div className="card h-full" id="gmail-widget">
+      <div className="widget-header">
+        <div className="accent-bar" />
+        <Mail size={12} style={{ color: 'var(--t-accent)' }} />
+        <span className="widget-title">Gmail</span>
+        <span className="badge">2</span>
       </div>
-      <ul className="flex-1 space-y-1 overflow-auto min-h-0">
+
+      <div className="flex-1 min-h-0 overflow-auto space-y-0.5">
         {mockEmails.map((email) => (
-          <li
-            key={email.id}
-            className="flex items-start gap-2 px-2 py-1.5 rounded-lg hover:bg-[var(--t-card-hover)] transition-colors cursor-pointer group"
-          >
+          <div key={email.id} className="widget-row">
             <div
-              className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${
-                email.unread ? 'bg-[var(--t-accent)]' : 'bg-transparent'
-              }`}
+              className="w-1.5 h-1.5 rounded-full flex-shrink-0 mr-2.5"
+              style={{ background: email.unread ? 'var(--t-accent)' : 'transparent' }}
             />
             <div className="min-w-0 flex-1">
               <p
-                className={`text-xs truncate ${
-                  email.unread ? 'text-[var(--t-text)] font-medium' : 'text-[var(--t-text-secondary)]'
-                }`}
+                className="text-[11px] truncate"
+                style={{
+                  color: email.unread ? 'var(--t-text)' : 'var(--t-text-secondary)',
+                  fontWeight: email.unread ? 500 : 400,
+                }}
               >
                 {email.from}
               </p>
-              <p className="text-[11px] text-[var(--t-text-muted)] truncate">
+              <p className="text-[10px] truncate line-clamp-1" style={{ color: 'var(--t-text-muted)' }}>
                 {email.subject}
               </p>
             </div>
-            <span className="text-[10px] text-[var(--t-text-muted)] flex-shrink-0 mt-0.5">
+            <span className="text-[9px] ml-2 flex-shrink-0" style={{ color: 'var(--t-text-muted)' }}>
               {email.time}
             </span>
-          </li>
+          </div>
         ))}
-      </ul>
-      <button className="ver-mais">Ver mais →</button>
+      </div>
+      <button className="ver-mais">ver mais →</button>
     </div>
   )
 }

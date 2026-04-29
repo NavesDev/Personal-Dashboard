@@ -19,37 +19,42 @@ describe('themes', () => {
 
   it('every theme has all required color tokens', () => {
     const requiredKeys = [
-      '--t-bg', '--t-bg-alt', '--t-card', '--t-card-hover',
+      '--t-bg', '--t-bg-alt', '--t-surface', '--t-card', '--t-card-hover',
       '--t-border', '--t-border-hover', '--t-text', '--t-text-secondary',
-      '--t-text-muted', '--t-accent', '--t-accent-hover', '--t-accent-text',
-      '--t-input', '--t-input-border', '--t-scrollbar', '--t-scrollbar-hover',
-      '--t-danger',
+      '--t-text-muted', '--t-accent', '--t-accent-dim', '--t-accent-hover',
+      '--t-accent-text', '--t-accent2', '--t-gradient',
+      '--t-input', '--t-input-border', '--t-scrollbar', '--t-danger',
     ]
     for (const theme of themes) {
       for (const key of requiredKeys) {
-        expect(theme.colors).toHaveProperty(key)
-        expect(theme.colors[key as keyof typeof theme.colors]).toBeTruthy()
+        expect(theme.colors, `${theme.id} missing ${key}`).toHaveProperty(key)
+        expect(theme.colors[key as keyof typeof theme.colors], `${theme.id}.${key} is empty`).toBeTruthy()
       }
     }
   })
 
-  it('every theme has a name and emoji', () => {
+  it('every theme has a name, emoji, and mode', () => {
     for (const theme of themes) {
       expect(theme.name).toBeTruthy()
       expect(theme.emoji).toBeTruthy()
+      expect(['light', 'dark']).toContain(theme.mode)
     }
+  })
+
+  it('first theme is zinc (default)', () => {
+    expect(themes[0].id).toBe('zinc')
   })
 
   describe('getThemeById', () => {
     it('returns the correct theme by ID', () => {
-      const result = getThemeById('midnight-ocean')
-      expect(result.id).toBe('midnight-ocean')
-      expect(result.name).toBe('Midnight Ocean')
+      const result = getThemeById('obsidian')
+      expect(result.id).toBe('obsidian')
+      expect(result.name).toBe('Obsidian')
     })
 
-    it('returns first theme as fallback for unknown ID', () => {
+    it('returns zinc as fallback for unknown ID', () => {
       const result = getThemeById('nonexistent-theme')
-      expect(result).toBe(themes[0])
+      expect(result.id).toBe('zinc')
     })
   })
 })

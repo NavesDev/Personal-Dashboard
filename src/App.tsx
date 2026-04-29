@@ -10,23 +10,19 @@ import Notes from '@/components/Notes'
 import SettingsModal from '@/components/Settings'
 
 function getGreeting(): string {
-  const hour = new Date().getHours()
-  if (hour < 6) return 'Boa madrugada'
-  if (hour < 12) return 'Bom dia'
-  if (hour < 18) return 'Boa tarde'
+  const h = new Date().getHours()
+  if (h < 6) return 'Boa madrugada'
+  if (h < 12) return 'Bom dia'
+  if (h < 18) return 'Boa tarde'
   return 'Boa noite'
 }
 
-function formatTime(date: Date): string {
-  return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+function formatTime(d: Date) {
+  return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
 }
 
-function formatDate(date: Date): string {
-  return date.toLocaleDateString('pt-BR', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-  })
+function formatDateShort(d: Date) {
+  return d.toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' })
 }
 
 export default function App() {
@@ -34,49 +30,98 @@ export default function App() {
   const [settingsOpen, setSettingsOpen] = useState(false)
 
   useEffect(() => {
-    const timer = setInterval(() => setNow(new Date()), 1000)
-    return () => clearInterval(timer)
+    const t = setInterval(() => setNow(new Date()), 1000)
+    return () => clearInterval(t)
   }, [])
 
   return (
-    <div className="h-screen overflow-hidden bg-[var(--t-bg)] text-[var(--t-text)] font-sans antialiased flex flex-col p-4 gap-3">
-      {/* Header: Clock + Search + Settings */}
-      <header className="flex items-center gap-4 flex-shrink-0">
-        <div className="flex items-baseline gap-3 flex-shrink-0">
-          <h1 className="text-3xl font-extralight tracking-tight text-[var(--t-text)]">
+    <div
+      className="h-screen overflow-hidden flex flex-col"
+      style={{ background: 'var(--t-bg)', color: 'var(--t-text)', fontFamily: 'var(--font-sans)' }}
+    >
+      {/* ── Header ─────────────────────────────────────────────────── */}
+      <header
+        className="flex-shrink-0 flex items-center gap-3 px-4"
+        style={{
+          height: '48px',
+          background: 'var(--t-surface)',
+          borderBottom: '1px solid var(--t-border)',
+        }}
+      >
+        {/* Clock */}
+        <div className="flex items-baseline gap-2 flex-shrink-0">
+          <span
+            className="text-xl font-semibold tabular-nums tracking-tight gradient-text"
+          >
             {formatTime(now)}
-          </h1>
-          <p className="text-xs text-[var(--t-text-muted)] capitalize hidden sm:block">
-            {getGreeting()} · {formatDate(now)}
-          </p>
+          </span>
+          <span className="text-[10px] hidden sm:block" style={{ color: 'var(--t-text-muted)' }}>
+            {getGreeting()} · {formatDateShort(now)}
+          </span>
         </div>
 
-        <div className="flex-1 max-w-xl">
+        {/* Divider */}
+        <div className="h-5 w-px flex-shrink-0" style={{ background: 'var(--t-border)' }} />
+
+        {/* Search — takes remaining space */}
+        <div className="flex-1 min-w-0">
           <SearchBar />
         </div>
 
+        {/* Settings */}
         <button
           onClick={() => setSettingsOpen(true)}
-          className="p-2 rounded-lg text-[var(--t-text-muted)] hover:text-[var(--t-text)]
-                     hover:bg-[var(--t-card)] transition-colors flex-shrink-0"
+          className="flex-shrink-0 flex items-center justify-center w-7 h-7 rounded-lg transition-colors"
+          style={{ color: 'var(--t-text-muted)' }}
+          onMouseEnter={e => (e.currentTarget.style.background = 'var(--t-card)')}
+          onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
           aria-label="Abrir configurações"
           id="settings-button"
         >
-          <SettingsIcon size={18} />
+          <SettingsIcon size={15} />
         </button>
       </header>
 
-      {/* Dashboard Grid: 3 cols × 2 rows */}
-      <main className="flex-1 min-h-0 grid grid-cols-3 grid-rows-2 gap-3">
+      {/* ── Grid ───────────────────────────────────────────────────── */}
+      {/*
+          Layout (6 cells):
+          col1 (1fr) | col2 (1.3fr) | col3 (0.9fr)
+
+          Row 1: Gmail | Notícias (tall, 2 rows) | Agenda
+          Row 2: Investimentos  | Notícias (cont) | Favoritos + Notas (stacked)
+      */}
+      <main
+        className="flex-1 min-h-0 p-3 gap-3"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1.35fr 0.85fr',
+          gridTemplateRows: '1fr 1fr',
+        }}
+      >
+        {/* Gmail — row 1, col 1 */}
         <GmailWidget />
-        <InvestWidget />
-        <NewsWidget />
+
+        {/* Notícias — spans 2 rows, col 2 */}
+        <div style={{ gridRow: '1 / 3', gridColumn: '2 / 3', minHeight: 0 }}>
+          <NewsWidget />
+        </div>
+
+        {/* Agenda — row 1, col 3 */}
         <AgendaWidget />
-        <SpeedDial />
-        <Notes />
+
+        {/* Investimentos — row 2, col 1 */}
+        <InvestWidget />
+
+        {/* Favoritos + Notas stacked — row 2, col 3 */}
+        <div
+          className="gap-3 min-h-0"
+          style={{ display: 'grid', gridTemplateRows: 'auto 1fr' }}
+        >
+          <SpeedDial />
+          <Notes />
+        </div>
       </main>
 
-      {/* Settings Modal */}
       <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </div>
   )

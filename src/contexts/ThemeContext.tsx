@@ -11,7 +11,7 @@ interface ThemeContextValue {
 const ThemeContext = createContext<ThemeContextValue | null>(null)
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [themeId, setThemeId] = useStorage('dashboard_theme', 'midnight-ocean')
+  const [themeId, setThemeId] = useStorage('dashboard_theme', 'zinc')
   const theme = getThemeById(themeId)
 
   useEffect(() => {
@@ -19,6 +19,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     Object.entries(theme.colors).forEach(([key, value]) => {
       root.style.setProperty(key, value)
     })
+    root.dataset.mode = theme.mode
   }, [theme])
 
   return (

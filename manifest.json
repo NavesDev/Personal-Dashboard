@@ -3,7 +3,13 @@
   "name": "Personal Dashboard",
   "description": "A beautiful personal dashboard to replace your New Tab page.",
   "version": "1.0.0",
-  "permissions": ["storage", "bookmarks"],
+  "permissions": ["storage", "bookmarks", "identity"],
+  "oauth2": {
+    "client_id": "351680547538-agpsosu8o1havvcu7r6r7gj21hul3m8h.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/gmail.readonly"
+    ]
+  },
   "chrome_url_overrides": {
     "newtab": "index.html"
   },

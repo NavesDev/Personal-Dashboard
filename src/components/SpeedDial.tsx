@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useStorage } from '@/hooks/useStorage'
-import { Plus, X, Globe } from 'lucide-react'
+import { Plus, X } from 'lucide-react'
 
 export interface SpeedDialLink {
   id: string
@@ -46,36 +46,22 @@ export default function SpeedDial() {
   if (!loaded) return null
 
   return (
-    <div className="card" id="speed-dial-widget" style={{ minHeight: 0 }}>
-      {/* Header */}
-      <div className="widget-header">
-        <div className="accent-bar" />
-        <Globe size={12} style={{ color: 'var(--t-accent)' }} />
-        <span className="widget-title">Favoritos</span>
-        <button
-          onClick={() => setIsAdding((p) => !p)}
-          className="ml-auto flex items-center gap-1 transition-colors"
-          style={{ fontSize: '12px', color: 'var(--t-text-muted)', background: 'none', border: 'none', cursor: 'pointer' }}
-          aria-label={isAdding ? 'Cancelar' : 'Adicionar favorito'}
-        >
-          {isAdding ? <X size={14} /> : <Plus size={14} />}
-          {isAdding ? 'Cancelar' : 'Novo'}
-        </button>
-      </div>
-
+    <div id="speed-dial-widget">
+      {/* Add form */}
       {isAdding && (
-        <form onSubmit={handleAdd} className="flex gap-1.5 mb-2" data-testid="speed-dial-form">
+        <form onSubmit={handleAdd} className="flex gap-1.5 mb-3 justify-center" data-testid="speed-dial-form">
           <input
             autoFocus
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Título"
-            className="flex-1 min-w-0 px-2 py-1.5 rounded-md text-xs outline-none placeholder:text-[var(--t-text-muted)]"
+            className="px-3 py-1.5 rounded-lg text-xs outline-none placeholder:text-[var(--t-text-muted)]"
             style={{
-              background: 'var(--t-input)',
-              border: '1px solid var(--t-input-border)',
+              background: 'var(--t-card)',
+              border: '1px solid var(--t-border)',
               color: 'var(--t-text)',
+              width: '120px',
             }}
           />
           <input
@@ -83,64 +69,69 @@ export default function SpeedDial() {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="URL"
-            className="flex-1 min-w-0 px-2 py-1.5 rounded-md text-xs outline-none placeholder:text-[var(--t-text-muted)]"
+            className="px-3 py-1.5 rounded-lg text-xs outline-none placeholder:text-[var(--t-text-muted)]"
             style={{
-              background: 'var(--t-input)',
-              border: '1px solid var(--t-input-border)',
+              background: 'var(--t-card)',
+              border: '1px solid var(--t-border)',
               color: 'var(--t-text)',
+              width: '160px',
             }}
           />
           <button
             type="submit"
-            className="px-3 py-1.5 rounded-md text-xs font-semibold transition-colors"
+            className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors"
             style={{ background: 'var(--t-accent)', color: 'var(--t-accent-text)' }}
           >
             OK
           </button>
+          <button
+            type="button"
+            onClick={() => setIsAdding(false)}
+            className="px-2 py-1.5 rounded-lg text-xs transition-colors"
+            style={{ color: 'var(--t-text-muted)', background: 'none', border: '1px solid var(--t-border)' }}
+          >
+            <X size={12} />
+          </button>
         </form>
       )}
 
-      {links.length > 0 ? (
-        <div className="grid grid-cols-5 gap-1.5">
-          {links.map((link) => (
-            <div key={link.id} className="relative group">
-              <button
-                onClick={() => handleRemove(link.id)}
-                className="absolute -top-1 -right-1 z-10 w-4 h-4 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
-                style={{ background: 'var(--t-danger)', color: '#fff' }}
-                aria-label={`Remover ${link.title}`}
-              >
-                <X size={10} />
-              </button>
-              <a
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex flex-col items-center gap-1.5 p-2 rounded-lg transition-colors"
-                style={{ background: 'transparent' }}
-                onMouseEnter={e => (e.currentTarget.style.background = 'var(--t-card-hover)')}
-                onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-              >
-                <img
-                  src={getFaviconUrl(link.url)}
-                  alt=""
-                  className="w-6 h-6 rounded-sm"
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-                />
-                <span className="text-xs truncate max-w-full" style={{ color: 'var(--t-text-muted)' }}>
-                  {link.title}
-                </span>
-              </a>
-            </div>
-          ))}
-        </div>
-      ) : (
-        !isAdding && (
-          <div className="flex items-center justify-center py-4">
-            <p className="text-xs" style={{ color: 'var(--t-text-muted)' }}>Sem favoritos</p>
+      {/* Links row */}
+      <div className="speed-dial-inline">
+        {links.map((link) => (
+          <div key={link.id} className="relative group">
+            <button
+              onClick={() => handleRemove(link.id)}
+              className="absolute -top-1.5 -right-1.5 z-10 w-4 h-4 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
+              style={{ background: 'var(--t-danger)', color: '#fff' }}
+              aria-label={`Remover ${link.title}`}
+            >
+              <X size={8} />
+            </button>
+            <a
+              href={link.url}
+              className="speed-dial-item"
+            >
+              <img
+                src={getFaviconUrl(link.url)}
+                alt=""
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+              />
+              <span>{link.title}</span>
+            </a>
           </div>
-        )
-      )}
+        ))}
+
+        {/* Add button */}
+        {!isAdding && (
+          <button
+            onClick={() => setIsAdding(true)}
+            className="speed-dial-add"
+            aria-label="Adicionar favorito"
+          >
+            <Plus size={14} />
+          </button>
+        )}
+      </div>
     </div>
   )
 }

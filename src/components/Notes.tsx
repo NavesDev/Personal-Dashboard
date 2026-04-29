@@ -21,28 +21,22 @@ export default function Notes() {
   )
 
   return (
-    <div className="card" id="notes-widget" style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
-      <div className="widget-header">
-        <div className="accent-bar" />
-        <StickyNote size={12} style={{ color: 'var(--t-accent)' }} />
-        <span className="widget-title">Notas</span>
+    <div className="card" id="notes-widget">
+      <div className="wg-header">
+        <div
+          className="wg-header-icon"
+          style={{ background: 'var(--t-accent-dim)', color: 'var(--t-accent)' }}
+        >
+          <StickyNote size={14} />
+        </div>
+        <span className="wg-header-title">Notas rápidas</span>
       </div>
       <textarea
         value={localNotes}
         onChange={(e) => handleChange(e.target.value)}
-        placeholder="Escreva suas notas aqui..."
+        placeholder="Escreva suas notas aqui…"
         aria-label="Notas"
-        className="flex-1 min-h-0 resize-none rounded-lg placeholder:text-[var(--t-text-muted)] outline-none transition-colors duration-300"
-        style={{
-          background: 'var(--t-bg-alt)',
-          border: '1px solid var(--t-border)',
-          padding: '12px',
-          color: 'var(--t-text)',
-          fontSize: '14px',
-          lineHeight: '1.5',
-        }}
-        onFocus={e => (e.target.style.borderColor = 'var(--t-border-hover)')}
-        onBlur={e => (e.target.style.borderColor = 'var(--t-border)')}
+        className="notes-textarea"
       />
     </div>
   )

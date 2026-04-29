@@ -1,4 +1,4 @@
-import { TrendingUp, TrendingDown } from 'lucide-react'
+import { TrendingUp } from 'lucide-react'
 
 const mockTickers = [
   { symbol: 'IBOV', name: 'Ibovespa', value: '128.540', change: 1.24 },
@@ -9,45 +9,33 @@ const mockTickers = [
 
 export default function InvestWidget() {
   return (
-    <div className="card h-full" id="invest-widget">
-      <div className="widget-header">
-        <div className="accent-bar" />
-        <TrendingUp size={12} style={{ color: 'var(--t-accent)' }} />
-        <span className="widget-title">Mercado</span>
+    <div className="card" id="invest-widget">
+      <div className="wg-header">
+        <div
+          className="wg-header-icon"
+          style={{ background: 'var(--t-accent-dim)', color: 'var(--t-accent)' }}
+        >
+          <TrendingUp size={14} />
+        </div>
+        <span className="wg-header-title">Mercado</span>
       </div>
 
-      <div className="flex-1 min-h-0 overflow-auto space-y-0.5">
+      <div className="market-list">
         {mockTickers.map((t) => (
-          <div key={t.symbol} className="widget-row">
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-1.5">
-                <span className="text-sm font-semibold" style={{ color: 'var(--t-text)' }}>
-                  {t.symbol}
-                </span>
-                <span className="text-xs" style={{ color: 'var(--t-text-muted)' }}>
-                  {t.name}
-                </span>
-              </div>
+          <div key={t.symbol} className="market-item">
+            <div>
+              <div className="market-symbol">{t.symbol}</div>
+              <div className="market-name">{t.name}</div>
             </div>
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <span className="text-sm tabular-nums" style={{ color: 'var(--t-text-secondary)' }}>
-                {t.value}
-              </span>
-              <span
-                className="text-xs font-medium flex items-center gap-0.5 tabular-nums"
-                style={{ color: t.change >= 0 ? '#34d399' : '#f87171' }}
-              >
-                {t.change >= 0
-                  ? <TrendingUp size={12} />
-                  : <TrendingDown size={12} />
-                }
-                {t.change >= 0 ? '+' : ''}{t.change.toFixed(2)}%
-              </span>
+            <div className="market-right">
+              <div className="market-value">{t.value}</div>
+              <div className={`market-change ${t.change >= 0 ? 'market-change--up' : 'market-change--down'}`}>
+                {t.change >= 0 ? '▲' : '▼'} {t.change >= 0 ? '+' : ''}{t.change.toFixed(2)}%
+              </div>
             </div>
           </div>
         ))}
       </div>
-      <button className="ver-mais">ver mais →</button>
     </div>
   )
 }

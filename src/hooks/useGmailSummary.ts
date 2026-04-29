@@ -11,12 +11,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import { fetchRecentEmails, type GmailMessage } from '@/services/gmailService'
 import { summarizeEmails } from '@/services/geminiService'
+import { useStorage } from './useStorage'
+import { defaultApiKeys, type ApiKeys } from '@/types/settings'
 
 const CACHE_KEY = 'gmail_summary_cache'
 const CACHE_TTL_MS = 60 * 60 * 1000 // 1 hour
-
-// Hardcoded Gemini key — the user can later move this to Settings
-const GEMINI_API_KEY = ''
 
 interface GmailCache {
   summary: string
@@ -55,6 +54,7 @@ function writeCache(data: GmailCache) {
 }
 
 export function useGmailSummary(): UseGmailSummaryResult {
+  const [apiKeys] = useStorage<ApiKeys>('dashboard_api_keys', defaultApiKeys)
   const [summary, setSummary] = useState<string | null>(null)
   const [emails, setEmails] = useState<GmailMessage[]>([])
   const [loading, setLoading] = useState(false)
@@ -82,6 +82,11 @@ export function useGmailSummary(): UseGmailSummaryResult {
       }
 
       // 2. Cache miss — fetch from APIs
+      if (!apiKeys.gemini) {
+        setError('Configure sua Gemini API Key nas configurações para ver o resumo.')
+        return
+      }
+
       setLoading(true)
       setError(null)
 
@@ -89,7 +94,7 @@ export function useGmailSummary(): UseGmailSummaryResult {
         const fetchedEmails = await fetchRecentEmails(10)
         if (cancelled) return
 
-        const generatedSummary = await summarizeEmails(fetchedEmails, GEMINI_API_KEY)
+        const generatedSummary = await summarizeEmails(fetchedEmails, apiKeys.gemini)
         if (cancelled) return
 
         const now = Date.now()
@@ -114,7 +119,7 @@ export function useGmailSummary(): UseGmailSummaryResult {
 
     load()
     return () => { cancelled = true }
-  }, [forceRefresh])
+  }, [forceRefresh, apiKeys.gemini])
 
   return { summary, emails, loading, error, lastFetched, refresh }
 }

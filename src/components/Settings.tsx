@@ -136,6 +136,7 @@ export default function Settings({ open, onClose }: SettingsProps) {
                   { key: 'news' as const, label: 'News API Key', placeholder: 'Sua chave da News API' },
                   { key: 'finance' as const, label: 'Finance API Key', placeholder: 'Sua chave de finanças' },
                   { key: 'calendar' as const, label: 'Calendar API Key', placeholder: 'AIza...' },
+                  { key: 'gemini' as const, label: 'Gemini API Key (Resumo IA)', placeholder: 'AIza...' },
                 ] as const
               ).map((field) => (
                 <div key={field.key}>

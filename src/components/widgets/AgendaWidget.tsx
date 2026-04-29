@@ -29,10 +29,10 @@ export default function AgendaWidget() {
             }}
           >
             <div className="flex-1 min-w-0">
-              <p className="text-[11px] font-medium" style={{ color: 'var(--t-text)' }}>
+              <p className="text-sm font-medium" style={{ color: 'var(--t-text)' }}>
                 {ev.title}
               </p>
-              <p className="text-[9px]" style={{ color: 'var(--t-text-muted)' }}>
+              <p className="text-xs mt-0.5" style={{ color: 'var(--t-text-muted)' }}>
                 {ev.time}
               </p>
             </div>

@@ -55,10 +55,10 @@ export default function SpeedDial() {
         <button
           onClick={() => setIsAdding((p) => !p)}
           className="ml-auto flex items-center gap-1 transition-colors"
-          style={{ fontSize: '10px', color: 'var(--t-text-muted)', background: 'none', border: 'none', cursor: 'pointer' }}
+          style={{ fontSize: '12px', color: 'var(--t-text-muted)', background: 'none', border: 'none', cursor: 'pointer' }}
           aria-label={isAdding ? 'Cancelar' : 'Adicionar favorito'}
         >
-          {isAdding ? <X size={11} /> : <Plus size={11} />}
+          {isAdding ? <X size={14} /> : <Plus size={14} />}
           {isAdding ? 'Cancelar' : 'Novo'}
         </button>
       </div>
@@ -71,7 +71,7 @@ export default function SpeedDial() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Título"
-            className="flex-1 min-w-0 px-2 py-1 rounded-md text-[10px] outline-none placeholder:text-[var(--t-text-muted)]"
+            className="flex-1 min-w-0 px-2 py-1.5 rounded-md text-xs outline-none placeholder:text-[var(--t-text-muted)]"
             style={{
               background: 'var(--t-input)',
               border: '1px solid var(--t-input-border)',
@@ -83,7 +83,7 @@ export default function SpeedDial() {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="URL"
-            className="flex-1 min-w-0 px-2 py-1 rounded-md text-[10px] outline-none placeholder:text-[var(--t-text-muted)]"
+            className="flex-1 min-w-0 px-2 py-1.5 rounded-md text-xs outline-none placeholder:text-[var(--t-text-muted)]"
             style={{
               background: 'var(--t-input)',
               border: '1px solid var(--t-input-border)',
@@ -92,7 +92,7 @@ export default function SpeedDial() {
           />
           <button
             type="submit"
-            className="px-2.5 py-1 rounded-md text-[10px] font-semibold transition-colors"
+            className="px-3 py-1.5 rounded-md text-xs font-semibold transition-colors"
             style={{ background: 'var(--t-accent)', color: 'var(--t-accent-text)' }}
           >
             OK
@@ -106,17 +106,17 @@ export default function SpeedDial() {
             <div key={link.id} className="relative group">
               <button
                 onClick={() => handleRemove(link.id)}
-                className="absolute -top-1 -right-1 z-10 w-3.5 h-3.5 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
+                className="absolute -top-1 -right-1 z-10 w-4 h-4 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
                 style={{ background: 'var(--t-danger)', color: '#fff' }}
                 aria-label={`Remover ${link.title}`}
               >
-                <X size={7} />
+                <X size={10} />
               </button>
               <a
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-col items-center gap-1 p-1.5 rounded-lg transition-colors"
+                className="flex flex-col items-center gap-1.5 p-2 rounded-lg transition-colors"
                 style={{ background: 'transparent' }}
                 onMouseEnter={e => (e.currentTarget.style.background = 'var(--t-card-hover)')}
                 onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
@@ -124,10 +124,10 @@ export default function SpeedDial() {
                 <img
                   src={getFaviconUrl(link.url)}
                   alt=""
-                  className="w-5 h-5 rounded-sm"
+                  className="w-6 h-6 rounded-sm"
                   onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
                 />
-                <span className="text-[9px] truncate max-w-full" style={{ color: 'var(--t-text-muted)' }}>
+                <span className="text-xs truncate max-w-full" style={{ color: 'var(--t-text-muted)' }}>
                   {link.title}
                 </span>
               </a>
@@ -136,8 +136,8 @@ export default function SpeedDial() {
         </div>
       ) : (
         !isAdding && (
-          <div className="flex items-center justify-center py-3">
-            <p className="text-[9px]" style={{ color: 'var(--t-text-muted)' }}>Sem favoritos</p>
+          <div className="flex items-center justify-center py-4">
+            <p className="text-xs" style={{ color: 'var(--t-text-muted)' }}>Sem favoritos</p>
           </div>
         )
       )}

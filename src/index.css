@@ -28,7 +28,7 @@
 }
 
 .widget-title {
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.10em;
@@ -46,9 +46,9 @@
 
 /* ─── Badge ─────────────────────────────────────────────────────── */
 .badge {
-  font-size: 0.55rem;
+  font-size: 0.65rem;
   font-weight: 600;
-  padding: 1px 6px;
+  padding: 2px 8px;
   border-radius: 9999px;
   background: var(--t-accent-dim);
   color: var(--t-accent);
@@ -61,7 +61,7 @@
 .ver-mais {
   margin-top: auto;
   padding-top: 8px;
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--t-text-muted);
   text-align: right;

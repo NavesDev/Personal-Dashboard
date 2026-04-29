@@ -36,10 +36,10 @@ export default function Notes() {
         style={{
           background: 'var(--t-bg-alt)',
           border: '1px solid var(--t-border)',
-          padding: '8px',
+          padding: '12px',
           color: 'var(--t-text)',
-          fontSize: '11px',
-          lineHeight: '1.65',
+          fontSize: '14px',
+          lineHeight: '1.5',
         }}
         onFocus={e => (e.target.style.borderColor = 'var(--t-border-hover)')}
         onBlur={e => (e.target.style.borderColor = 'var(--t-border)')}

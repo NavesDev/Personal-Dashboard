@@ -21,25 +21,25 @@ export default function InvestWidget() {
           <div key={t.symbol} className="widget-row">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
-                <span className="text-[11px] font-semibold" style={{ color: 'var(--t-text)' }}>
+                <span className="text-sm font-semibold" style={{ color: 'var(--t-text)' }}>
                   {t.symbol}
                 </span>
-                <span className="text-[9px]" style={{ color: 'var(--t-text-muted)' }}>
+                <span className="text-xs" style={{ color: 'var(--t-text-muted)' }}>
                   {t.name}
                 </span>
               </div>
             </div>
             <div className="flex items-center gap-2 flex-shrink-0">
-              <span className="text-[11px] tabular-nums" style={{ color: 'var(--t-text-secondary)' }}>
+              <span className="text-sm tabular-nums" style={{ color: 'var(--t-text-secondary)' }}>
                 {t.value}
               </span>
               <span
-                className="text-[10px] font-medium flex items-center gap-0.5 tabular-nums"
+                className="text-xs font-medium flex items-center gap-0.5 tabular-nums"
                 style={{ color: t.change >= 0 ? '#34d399' : '#f87171' }}
               >
                 {t.change >= 0
-                  ? <TrendingUp size={9} />
-                  : <TrendingDown size={9} />
+                  ? <TrendingUp size={12} />
+                  : <TrendingDown size={12} />
                 }
                 {t.change >= 0 ? '+' : ''}{t.change.toFixed(2)}%
               </span>

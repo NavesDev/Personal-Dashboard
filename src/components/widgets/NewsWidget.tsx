@@ -28,16 +28,16 @@ export default function NewsWidget() {
             />
             <div className="min-w-0 flex-1">
               <p
-                className="text-[11px] line-clamp-2 leading-relaxed"
+                className="text-sm line-clamp-2 leading-relaxed"
                 style={{ color: 'var(--t-text)', lineHeight: '1.45' }}
               >
                 {n.title}
               </p>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="text-[9px]" style={{ color: 'var(--t-accent)', fontWeight: 500 }}>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-xs" style={{ color: 'var(--t-accent)', fontWeight: 500 }}>
                   {n.source}
                 </span>
-                <span className="text-[9px]" style={{ color: 'var(--t-text-muted)' }}>
+                <span className="text-xs" style={{ color: 'var(--t-text-muted)' }}>
                   {n.time}
                 </span>
               </div>

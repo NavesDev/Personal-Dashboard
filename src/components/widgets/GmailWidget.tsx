@@ -26,7 +26,7 @@ export default function GmailWidget() {
             />
             <div className="min-w-0 flex-1">
               <p
-                className="text-[11px] truncate"
+                className="text-sm truncate"
                 style={{
                   color: email.unread ? 'var(--t-text)' : 'var(--t-text-secondary)',
                   fontWeight: email.unread ? 500 : 400,
@@ -34,11 +34,11 @@ export default function GmailWidget() {
               >
                 {email.from}
               </p>
-              <p className="text-[10px] truncate line-clamp-1" style={{ color: 'var(--t-text-muted)' }}>
+              <p className="text-xs truncate line-clamp-1" style={{ color: 'var(--t-text-muted)' }}>
                 {email.subject}
               </p>
             </div>
-            <span className="text-[9px] ml-2 flex-shrink-0" style={{ color: 'var(--t-text-muted)' }}>
+            <span className="text-xs ml-2 flex-shrink-0" style={{ color: 'var(--t-text-muted)' }}>
               {email.time}
             </span>
           </div>

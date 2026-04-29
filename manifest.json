@@ -1,5 +1,6 @@
 {
   "manifest_version": 3,
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx9YCYA/CLSxDuxGJmjKZChhCpTizExVK8Oz5F0+DgZgILux/sd9y521HHdVIObtv1bcSzM+amnvMZ1GdBtyaeFSZrM/JghOh70j3k69LfhfIPT97xiX4Ek6VQJJcCMR1rLWXtDx7Ljt2rGtoorFJt96aqnwgsi6fv4wiKHd/1d8I/ctKpFD2m2sLZD1UODI1FFZQVo283LmzJEkY0Obz0BWMO1Q5qLvHppRlmLLDBIPXNdqtNKrzptCSdfoKJoMOON/K28TgYvSJj05Qn70SRkOPtCIjp8Skd1xGKcg3SITQHh7bASNSKOLszOB6zTf5DB76yoArBAXcy0sWVuBtNwIDAQAB",
   "name": "Personal Dashboard",
   "description": "A beautiful personal dashboard to replace your New Tab page.",
   "version": "1.0.0",

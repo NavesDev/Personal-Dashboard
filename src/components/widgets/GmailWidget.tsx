@@ -1,40 +1,6 @@
+import ReactMarkdown from 'react-markdown'
 import { Mail, RefreshCw, AlertCircle, Clock } from 'lucide-react'
 import { useGmailSummary } from '@/hooks/useGmailSummary'
-
-/** Shortens an email address / display name */
-function shortSender(from: string): string {
-  // "John Doe <john@example.com>" → "John Doe"
-  const match = from.match(/^([^<]+)/)
-  if (match) return match[1].trim().replace(/"/g, '')
-  return from.split('@')[0]
-}
-
-/** "Mon, 28 Apr 2025 10:30:00 -0300" → "10:30" or "Ontem" */
-function formatDate(dateStr: string): string {
-  try {
-    const d = new Date(dateStr)
-    const now = new Date()
-    const isToday =
-      d.getDate() === now.getDate() &&
-      d.getMonth() === now.getMonth() &&
-      d.getFullYear() === now.getFullYear()
-
-    if (isToday) return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-
-    const yesterday = new Date(now)
-    yesterday.setDate(now.getDate() - 1)
-    if (
-      d.getDate() === yesterday.getDate() &&
-      d.getMonth() === yesterday.getMonth() &&
-      d.getFullYear() === yesterday.getFullYear()
-    )
-      return 'Ontem'
-
-    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })
-  } catch {
-    return ''
-  }
-}
 
 export default function GmailWidget() {
   const { summary, emails, loading, error, lastFetched, refresh } = useGmailSummary()
@@ -73,7 +39,7 @@ export default function GmailWidget() {
       <div className="flex-1 min-h-0 overflow-auto flex flex-col gap-1.5">
 
         {/* Loading skeleton */}
-        {loading && emails.length === 0 && (
+        {loading && summary === null && (
           <div className="flex flex-col gap-2 pt-1">
             {[1, 2, 3].map((i) => (
               <div key={i} className="flex flex-col gap-1 px-1.5">
@@ -103,67 +69,42 @@ export default function GmailWidget() {
             <p className="text-xs" style={{ color: 'var(--t-danger)', lineHeight: 1.4 }}>
               {error}
             </p>
-            <button
-              onClick={refresh}
-              className="text-xs px-3 py-1 rounded-lg transition-colors"
-              style={{ background: 'var(--t-accent)', color: 'var(--t-accent-text)' }}
-            >
-              Tentar novamente
-            </button>
           </div>
         )}
 
         {/* AI Summary */}
-        {summary && !loading && (
+        {summary && (
           <div
-            className="rounded-lg p-2.5 flex-shrink-0"
-            style={{ background: 'var(--t-accent-dim)', border: '1px solid var(--t-border)' }}
+            className="rounded-lg p-3 flex-1 overflow-auto"
+            style={{ background: 'var(--t-accent-dim)' }}
           >
-            <div className="flex items-center gap-1 mb-1.5">
+            <div className="flex items-center gap-1 mb-2">
               <span
-                className="text-[9px] font-bold uppercase tracking-widest"
+                className="text-[10px] font-bold uppercase tracking-widest"
                 style={{ background: 'var(--t-gradient)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
               >
-                ✦ Resumo IA
+                ✦ Resumo Inteligente
               </span>
             </div>
-            <p
-              className="text-xs leading-relaxed"
-              style={{ color: 'var(--t-text-secondary)', lineHeight: 1.55 }}
+            <div
+              className="text-sm leading-relaxed whitespace-pre-wrap markdown-content"
+              style={{ color: 'var(--t-text)', lineHeight: 1.6 }}
             >
-              {summary}
-            </p>
-          </div>
-        )}
-
-        {/* Email list */}
-        {emails.length > 0 && (
-          <div className="space-y-0.5 flex-shrink-0">
-            {emails.slice(0, 5).map((email) => (
-              <div key={email.id} className="widget-row">
-                <div
-                  className="w-1.5 h-1.5 rounded-full flex-shrink-0 mr-2"
-                  style={{ background: email.isUnread ? 'var(--t-accent)' : 'transparent' }}
-                />
-                <div className="min-w-0 flex-1">
-                  <p
-                    className="text-sm truncate"
-                    style={{
-                      color: email.isUnread ? 'var(--t-text)' : 'var(--t-text-secondary)',
-                      fontWeight: email.isUnread ? 500 : 400,
-                    }}
-                  >
-                    {shortSender(email.from)}
-                  </p>
-                  <p className="text-xs truncate" style={{ color: 'var(--t-text-muted)' }}>
-                    {email.subject}
-                  </p>
-                </div>
-                <span className="text-xs ml-2 flex-shrink-0" style={{ color: 'var(--t-text-muted)' }}>
-                  {formatDate(email.date)}
-                </span>
-              </div>
-            ))}
+              <ReactMarkdown
+                components={{
+                  p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                  ul: ({ children }) => <ul className="list-disc pl-4 mb-2 space-y-1">{children}</ul>,
+                  ol: ({ children }) => <ol className="list-decimal pl-4 mb-2 space-y-1">{children}</ol>,
+                  li: ({ children }) => <li>{children}</li>,
+                  strong: ({ children }) => <strong style={{ color: 'var(--t-accent)' }} className="font-semibold">{children}</strong>,
+                  h1: ({ children }) => <h1 className="font-bold text-base mb-1">{children}</h1>,
+                  h2: ({ children }) => <h2 className="font-bold text-sm mb-1">{children}</h2>,
+                  h3: ({ children }) => <h3 className="font-semibold text-sm mb-1">{children}</h3>,
+                }}
+              >
+                {summary}
+              </ReactMarkdown>
+            </div>
           </div>
         )}
       </div>
@@ -180,7 +121,13 @@ export default function GmailWidget() {
             {lastFetched.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
           </span>
         )}
-        <button className="ver-mais" style={{ marginTop: 0 }}>ver mais →</button>
+        {error ? (
+          <button onClick={refresh} className="ver-mais" style={{ marginTop: 0 }}>Conectar Gmail →</button>
+        ) : (
+          <a href="https://mail.google.com/" target="_blank" rel="noreferrer" className="ver-mais" style={{ marginTop: 0, textDecoration: 'none' }}>
+            Abrir Gmail →
+          </a>
+        )}
       </div>
     </div>
   )

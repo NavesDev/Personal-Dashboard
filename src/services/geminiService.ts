@@ -18,14 +18,14 @@ export async function summarizeEmails(
     .map((e, i) => `${i + 1}. De: ${e.from}\n   Assunto: ${e.subject}\n   Trecho: ${e.snippet}`)
     .join('\n\n')
 
-  const prompt = `Você é um assistente pessoal. Analise os ${emails.length} emails mais recentes abaixo e gere um resumo executivo conciso em português brasileiro.
-
-Destaque:
-- O que precisa de atenção ou resposta urgente
-- Reuniões ou compromissos mencionados
-- Tópicos principais
-
-Seja direto e objetivo. Máximo 4-5 linhas.
+  const prompt = `Você é um assistente pessoal altamente eficiente. Analise os ${emails.length} emails mais recentes abaixo.
+  
+Sua tarefa:
+1. Ignore notificações inúteis (ex: TikTok, redes sociais, spam, promoções irrelevantes).
+2. Se TODOS os emails forem inúteis, responda exatamente: "Nenhum email importante no momento. Só notificações de rotina e promoções."
+3. Caso contrário, filtre e agrupe apenas o que é importante (trabalho, reuniões, cobranças, mensagens reais).
+4. Escreva um resumo estruturado e direto ao ponto. Use Markdown.
+5. Destaque o que exija ação imediata.
 
 Emails:
 ${emailList}`
@@ -37,7 +37,7 @@ ${emailList}`
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: {
         temperature: 0.3,
-        maxOutputTokens: 300,
+        maxOutputTokens: 800,
       },
     }),
   })

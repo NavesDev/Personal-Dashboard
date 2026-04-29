@@ -18,14 +18,14 @@ export async function summarizeEmails(
     .map((e, i) => `${i + 1}. De: ${e.from}\n   Assunto: ${e.subject}\n   Trecho: ${e.snippet}`)
     .join('\n\n')
 
-  const prompt = `Você é um assistente pessoal altamente eficiente. Analise os ${emails.length} emails mais recentes abaixo.
+  const prompt = `Você é um assistente pessoal encarregado de ler a caixa de entrada do usuário. Analise os ${emails.length} emails mais recentes abaixo.
   
 Sua tarefa:
-1. Ignore notificações inúteis (ex: TikTok, redes sociais, spam, promoções irrelevantes).
-2. Se TODOS os emails forem inúteis, responda exatamente: "Nenhum email importante no momento. Só notificações de rotina e promoções."
-3. Caso contrário, filtre e agrupe apenas o que é importante (trabalho, reuniões, cobranças, mensagens reais).
-4. Escreva um resumo estruturado e direto ao ponto. Use Markdown.
-5. Destaque o que exija ação imediata.
+1. Faça um resumo abrangente e detalhado cobrindo o máximo de informações úteis de TODOS os emails.
+2. Agrupe o resumo por categorias claras (ex: 🔴 Urgente/Ação Necessária, 💼 Trabalho/Projetos, 🔔 Atualizações/Notificações, etc.).
+3. Não ignore emails a menos que sejam puramente lixo eletrônico. Redes sociais, YouTube e outras atualizações podem ser incluídos de forma mais breve na categoria "Outros".
+4. Seja rico em detalhes: inclua nomes de remetentes, assuntos principais e contexto, para que o usuário saiba exatamente do que se trata sem abrir o email.
+5. Formate usando Markdown, com títulos (H3), negritos e listas para facilitar a leitura.
 
 Emails:
 ${emailList}`
@@ -36,8 +36,8 @@ ${emailList}`
     body: JSON.stringify({
       contents: [{ parts: [{ text: prompt }] }],
       generationConfig: {
-        temperature: 0.3,
-        maxOutputTokens: 800,
+        temperature: 0.4,
+        maxOutputTokens: 1200,
       },
     }),
   })

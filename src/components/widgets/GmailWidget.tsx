@@ -8,7 +8,7 @@ export default function GmailWidget() {
   const unreadCount = emails.filter((e) => e.isUnread).length
 
   return (
-    <div className="card h-full" id="gmail-widget">
+    <div className="card h-full min-h-0" id="gmail-widget">
       {/* Header */}
       <div className="widget-header">
         <div className="accent-bar" />
@@ -75,7 +75,7 @@ export default function GmailWidget() {
         {/* AI Summary */}
         {summary && (
           <div
-            className="rounded-lg p-3 flex-1 overflow-auto"
+            className="rounded-lg p-3"
             style={{ background: 'var(--t-accent-dim)' }}
           >
             <div className="flex items-center gap-1 mb-2">

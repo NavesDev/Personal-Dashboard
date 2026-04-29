@@ -24,8 +24,9 @@ describe('Settings types', () => {
       news: 'news-key',
       finance: 'finance-key',
       calendar: 'calendar-key',
+      gemini: 'gemini-key',
     }
     expect(keys.gmail).toBe('AIza-test')
-    expect(Object.keys(keys)).toHaveLength(4)
+    expect(Object.keys(keys)).toHaveLength(5)
   })
 })

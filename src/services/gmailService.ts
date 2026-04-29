@@ -15,11 +15,12 @@ export interface GmailMessage {
 /** Gets an OAuth2 access token via chrome.identity */
 async function getAuthToken(): Promise<string> {
   return new Promise((resolve, reject) => {
-    chrome.identity.getAuthToken({ interactive: true }, (token) => {
+    chrome.identity.getAuthToken({ interactive: true }, (token: any) => {
       if (chrome.runtime.lastError || !token) {
         reject(new Error(chrome.runtime.lastError?.message ?? 'Failed to get auth token'))
       } else {
-        resolve(token)
+        const tokenString = typeof token === 'string' ? token : token.token
+        resolve(tokenString)
       }
     })
   })

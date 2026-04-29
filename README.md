@@ -1,73 +1,91 @@
-# React + TypeScript + Vite
+# Personal Dashboard Chrome Extension
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Dashboard Demo](docs/assets/dashboard-demo.png)
 
-Currently, two official plugins are available:
+A modern, beautiful, and highly functional Chrome extension that replaces your default new tab page with a customizable personal dashboard. Designed with a clean, modern aesthetic and powered by React, TypeScript, and Vite.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🌟 Features
 
-## React Compiler
+- **New Tab Replacement**: Automatically overrides the default Chrome new tab with a personalized dashboard.
+- **Gmail Integration with AI**: Seamlessly integrates with the Gmail API to fetch recent emails. Uses Google's Gemini AI to intelligently summarize your unread emails and display them in clean Markdown.
+- **Quick Links & Speed Dial**: Easily access your most visited sites or custom-defined bookmarks.
+- **Search Bar**: Convenient web searching directly from the dashboard.
+- **Widgets System**:
+  - **Gmail Widget**: AI-summarized email insights.
+  - **Agenda Widget**: Keep track of your daily tasks and schedule.
+  - **Invest Widget**: Quick view of your financial and investment data.
+  - **News Widget**: Stay updated with the latest headlines.
+- **Notes Module**: Take quick notes that persist across sessions.
+- **Customizable Settings**: Configure your preferences, API keys (like Gemini), and widget visibility.
+- **Modern UI/UX**: Built with Tailwind CSS v4 and Lucide React icons for a high-fidelity, polished, and minimalist design.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Tech Stack
 
-## Expanding the ESLint configuration
+- **Framework**: [React 19](https://react.dev/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Testing**: Vitest & React Testing Library
+- **AI Integration**: Google Gemini API
+- **APIs**: Chrome Extensions API (Storage, Identity, Bookmarks), Gmail API (OAuth2)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📦 Installation
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
+- Node.js (v18 or higher recommended)
+- npm or yarn
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Local Development
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/NavesDev/Personal-Dashboard.git
+   cd Personal-Dashboard
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server (for UI testing):**
+   ```bash
+   npm run dev
+   ```
+
+### Building for Chrome
+
+1. **Build the extension:**
+   ```bash
+   npm run build
+   ```
+   This will compile the TypeScript, bundle the React application, and copy the `manifest.json` and icons into the `dist/` directory.
+
+2. **Load into Chrome:**
+   - Open Google Chrome and navigate to `chrome://extensions/`
+   - Enable **"Developer mode"** in the top right corner.
+   - Click **"Load unpacked"**.
+   - Select the `dist` folder generated inside your project directory.
+
+## ⚙️ Configuration
+
+To use the Gmail and Gemini AI features, you will need to:
+1. Provide a **Gemini API Key** in the extension's Settings panel to enable AI summaries.
+2. Authenticate with your Google account when prompted by the Gmail widget (uses Chrome Identity API for secure OAuth2).
+
+## 🧪 Testing
+
+The project is equipped with unit and component tests using Vitest.
+To run the tests:
+```bash
+npm run test
+```
+To run tests in watch mode:
+```bash
+npm run test:watch
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📄 License
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+This project is licensed under the [MIT License](LICENSE).
